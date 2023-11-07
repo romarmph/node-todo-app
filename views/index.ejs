@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+
+    <title>ToDo List</title>
+  </head>
+  <body>
+    <h1>ToDo List</h1>
+    <form action="/create" method="POST" class="todo-form">
+      <input
+        type="text"
+        name="todo"
+        placeholder="Task"
+        id="taskNameInput"
+        required
+        class="todo-form-input"
+      />
+      <button type="submit" class="todo-form-btn">Add</button>
+    </form>
+    <div class="todo-list-container">
+      <% if (todoList.length == 0) { %>
+      <div class="todo-empty">No task</div>
+      <% } else { %>
+      <ul>
+        <% todoList.forEach(todo => { %> <%- include('components/todo_item.ejs',
+        {todo: todo}) %> <% }) %>
+      </ul>
+      <% } %>
+    </div>
+    <script></script>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+      }
+
+      body {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: rgb(41, 175, 175);
+      }
+
+      a {
+        text-decoration: none;
+        color: white;
+        padding: 10px 20px;
+        background-color: #1e90ff;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <% if (type === "create") { %>
+    <h1>Todo created successfuly</h1>
+    <a href="/">Go Back</a>
+    <% } else if (type === "update") { %>
+    <h1>Todo updated successfuly</h1>
+    <a href="/">Go Back</a>
+    <% } else { %>
+    <h1>Todo deleted successfuly</h1>
+    <a href="/">Go Back</a>
+    <% } %>
+  </body>
+</html>

@@ -1,0 +1,114 @@
+<li>
+  <form action="/update" method="POST" class="todo-list-item">
+    <input type="text" name="id" value="<%= todo.id %>" hidden />
+    <div class="row">
+      <div class="col">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" name="done" <%= todo.done ? 'checked' : '' %>
+          onchange="this.form.submit()" />
+          <svg viewBox="0 0 35.6 35.6">
+            <circle class="background" cx="17.8" cy="17.8" r="17.8"></circle>
+            <circle class="stroke" cx="17.8" cy="17.8" r="14.37"></circle>
+            <polyline
+              class="check"
+              points="11.78 18.12 15.55 22.23 25.17 12.87"
+            ></polyline>
+          </svg>
+        </div>
+      </div>
+      <div class="col">
+        <input
+          type="text"
+          value="<%= todo.todo %>"
+          name="todo"
+          class="todo-name read <%= todo.done ? 'done' : '' %>"
+          readonly
+        />
+        <div class="row">
+          <button
+            type="submit"
+            formaction="/remove"
+            class="todo-list-btn delete-btn"
+          >
+            Delete
+          </button>
+          <button
+            type="button"
+            class="todo-list-btn edit-btn"
+            onclick="editTask(this)"
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            class="todo-list-btn cancel-btn"
+            style="display: none"
+            onclick="cancelEdit(this)"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="todo-list-btn save-btn"
+            style="display: none"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</li>
+
+<script>
+  function editTask(button) {
+    const input =
+      button.parentElement.parentElement.querySelector('input[type="text"]');
+    input.classList.toggle("write");
+    input.readOnly = !input.readOnly;
+
+    const btnRow = button.parentElement;
+    btnRow.querySelector(".edit-btn").style.display = "none";
+    btnRow.querySelector(".delete-btn").style.display = "none";
+    btnRow.querySelector(".cancel-btn").style.display = "inline-block";
+    btnRow.querySelector(".save-btn").style.display = "inline-block";
+  }
+
+  function cancelEdit(button) {
+    const input =
+      button.parentElement.parentElement.querySelector('input[type="text"]');
+    input.classList.toggle("write");
+    input.readOnly = !input.readOnly;
+
+    const btnRow = button.parentElement;
+    btnRow.querySelector(".edit-btn").style.display = "inline-block";
+    btnRow.querySelector(".delete-btn").style.display = "inline-block";
+    btnRow.querySelector(".cancel-btn").style.display = "none";
+    btnRow.querySelector(".save-btn").style.display = "none";
+  }
+
+  function updateTask(button) {
+    const form = button.parentElement.parentElement.parentElement;
+    const taskId = form.querySelector('input[name="id"]').value;
+    const taskName = form.querySelector('input[name="todo"]').value;
+    const taskStatus = form.querySelector('input[name="done"]').checked;
+
+    fetch("/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: taskId, todo: taskName, done: taskStatus }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        // Reload the page after the server responds
+        location.reload();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+</script>
