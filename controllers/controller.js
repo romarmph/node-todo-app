@@ -4,6 +4,7 @@ const todoList = [];
 
 let data = fs.readFileSync("src/data.json", "utf8");
 let array = JSON.parse(data);
+
 array.forEach((item) => {
   todoList.push(item);
 });
@@ -37,7 +38,7 @@ const update = (req, res) => {
     const updatedTodo = {
       id: todoItem[0].id,
       todo: todo,
-      done: done,
+      done: done === "on" ? true : false,
     };
     todoList.splice(todoList.indexOf(todoItem[0]), 1, updatedTodo);
     fs.writeFileSync("src/data.json", JSON.stringify(todoList));
